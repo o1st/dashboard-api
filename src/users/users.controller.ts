@@ -1,24 +1,29 @@
 import { BaseController } from "../common/base.controller";
-import { HTTPException } from "../errors/http-error.class";
-import { LoggerService } from "../logger/logger.service";
 import { NextFunction, Request, Response } from "express";
+import { IUsersController } from "./users.controller.interface";
+import { inject, injectable } from "inversify";
+import { TYPES } from "../types";
+import { ILogger } from "../logger/logger.service.interface";
+import "reflect-metadata";
 
-export class UserController extends BaseController {
-    constructor(logger: LoggerService<unknown>) {
-        super(logger);
+@injectable()
+export class UserController extends BaseController implements IUsersController {
+    constructor(
+        @inject(TYPES.ILogger) private loggerService: ILogger
+    ) {
+        super(loggerService);
 
         this.bindRoutes([
-            {path: '/register', method: 'post', func: this.register},
-            {path: '/login', method: 'post', func: this.login},
+            { path: '/register', method: 'post', func: this.register },
+            { path: '/login', method: 'post', func: this.login },
         ]);
     }
 
-    private register(req: Request, res: Response, next: NextFunction) {
+    public register(req: Request, res: Response, next: NextFunction): void {
         this.ok(res, 'register');
     }
 
-    private login(req: Request, res: Response, next: NextFunction) {
+    public login(req: Request, res: Response, next: NextFunction): void {
         this.ok(res, 'login');
     }
-
 }

@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node ./dist/main.js",
     "dev": "nodemon",
+    "dev:inspect": "nodemon -e ts,json --exec node --inspect=localhost:9222 -r ts-node/register src/main.ts",
     "build": "tsc",
     "lint": "eslint ./src/**/*.ts",
     "lint:fix": "eslint ./src/**/*.ts --fix"

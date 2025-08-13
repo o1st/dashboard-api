@@ -13,9 +13,9 @@ export class ConfigService implements IConfigService {
 		const result: DotenvConfigOutput = config();
 
 		if (result.error) {
-			this.logger.error('Failed to load .env file');
+			this.logger.error('[ConfigService] Load .env file failed');
 		} else {
-			this.logger.log('.env file loaded successfully');
+			this.logger.log('[ConfigService] Load .env file successfully');
 			this.config = result.parsed;
 		}
 	}

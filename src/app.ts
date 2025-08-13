@@ -6,6 +6,7 @@ import { TYPES } from './types';
 import { ILogger } from './logger/logger.service.interface';
 import { IUsersController } from './users/users.controller.interface';
 import 'reflect-metadata';
+import { json } from 'body-parser';
 
 @injectable()
 export class App {
@@ -14,7 +15,7 @@ export class App {
 	port: number;
 
 	constructor(
-		@inject(TYPES.ILogger) private logger: ILogger,
+		@inject(TYPES.Logger) private logger: ILogger,
 		@inject(TYPES.UserController) private userController: IUsersController,
 		@inject(TYPES.ExceptionFilter) private exceptionFilter: IExceptionFilter,
 	) {
@@ -26,11 +27,16 @@ export class App {
 		this.app.use('/users', this.userController.router);
 	}
 
+	useMiddleware(): void {
+		this.app.use(json());
+	}
+
 	useExceptionFilters(): void {
 		this.app.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
 	}
 
 	public async init(): Promise<void> {
+		this.useMiddleware();
 		this.useRoutes();
 		this.useExceptionFilters();
 		this.server = this.app.listen(this.port);

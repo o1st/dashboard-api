@@ -7,9 +7,9 @@ import { ILogger } from '../logger/logger.service.interface';
 import 'reflect-metadata';
 import { UserRegisterDto } from './dto/user-register.dto';
 import { UserLoginDto } from './dto/user-login.dto';
-import { IUserService } from './user.service.interface';
+import { IUserService } from './services/user.service.interface';
 import { HTTPException } from '../errors/http-error.class';
-import { ValidateMiddleware } from '../common/validate.middleware';
+import { ValidateMiddleware } from '../common/middlewares/validate.middleware';
 
 @injectable()
 export class UserController extends BaseController implements IUsersController {

@@ -7,13 +7,13 @@ import { TYPES } from './types';
 import { IUsersController } from './users/users.controller.interface';
 import { UserController } from './users/users.controller';
 import { Container, ContainerModule } from 'inversify';
-import { UserService } from './users/user.service';
-import { IUserService } from './users/user.service.interface';
+import { UserService } from './users/services/user.service';
+import { IUserService } from './users/services/user.service.interface';
 import { ConfigService } from './config/config.service';
 import { IConfigService } from './config/config.service.interface';
 import { PrismaService } from './database/prisma.service';
-import { IUsersRepository } from './users/users.repository.interface';
-import { UsersRepository } from './users/users.repository';
+import { IUsersRepository } from './users/repositories/users.repository.interface';
+import { UsersRepository } from './users/repositories/users.repository';
 
 export interface IBootstrapReturn {
 	appContainer: Container;

@@ -8,13 +8,17 @@ import { UserRegisterDto } from './dto/user-register.dto';
 import { UserLoginDto } from './dto/user-login.dto';
 import { IUserService } from './services/user.service.interface';
 import { HTTPException } from '../errors/http-error.class';
-import { ValidateMiddleware } from '../common/middlewares/validate.middleware';
+import { ValidateMiddleware } from '../common/middlewares/validate/validate.middleware';
+import { sign } from 'jsonwebtoken';
+import { IConfigService } from '../config/config.service.interface';
+import { AuthGuard } from '../common/middlewares/auth/auth.guard';
 
 @injectable()
 export class UserController extends BaseController implements IUsersController {
 	constructor(
 		@inject(TYPES.Logger) private loggerService: ILogger,
 		@inject(TYPES.UserService) private userService: IUserService,
+		@inject(TYPES.ConfigService) private configService: IConfigService,
 	) {
 		super(loggerService);
 
@@ -31,6 +35,12 @@ export class UserController extends BaseController implements IUsersController {
 				func: this.login,
 				middleware: [new ValidateMiddleware(UserLoginDto)],
 			},
+			{
+				path: '/info',
+				method: 'get',
+				func: this.info,
+				middleware: [new AuthGuard()],
+			},
 		]);
 	}
 
@@ -45,7 +55,7 @@ export class UserController extends BaseController implements IUsersController {
 			return next(new HTTPException('User already exists', 409));
 		}
 
-		this.ok(res, { email: user.email });
+		this.ok(res, { email: user.email, id: user.id });
 	}
 
 	public async login(
@@ -58,6 +68,35 @@ export class UserController extends BaseController implements IUsersController {
 			return next(new HTTPException('Invalid email or password', 401));
 		}
 
-		this.ok(res, isValid);
+		const token = await this.signJWT(body.email, this.configService.get('SECRET'));
+
+		this.ok(res, { token });
+	}
+
+	public async info(
+		{ user }: Request<{}, {}, UserLoginDto>,
+		res: Response,
+		next: NextFunction,
+	): Promise<void> {
+		const userInfo = await this.userService.getUserInfo(user.email);
+
+		if (!userInfo) {
+			return next(new HTTPException('User not found', 404));
+		}
+
+		this.ok(res, userInfo);
+	}
+
+	private signJWT(email: string, secret: string): Promise<string> {
+		return new Promise((resolve, reject) => {
+			const payload = { email };
+
+			sign(payload, secret, { expiresIn: '1h' }, (err, token) => {
+				if (err) {
+					return reject(err);
+				}
+				resolve(token);
+			});
+		});
 	}
 }

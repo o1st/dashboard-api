@@ -25,6 +25,7 @@
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "inversify": "^7.0.0-alpha.2",
+    "jsonwebtoken": "^9.0.2",
     "reflect-metadata": "^0.2.2",
     "tslog": "^4.9.3"
   },

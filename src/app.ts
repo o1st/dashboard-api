@@ -53,4 +53,9 @@ export class App {
 
 		this.logger.log(`Server started on port ${this.port}`);
 	}
+
+	public close(): void {
+		this.server.close();
+		this.logger.log(`Server stopped`);
+	}
 }

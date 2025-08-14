@@ -5,7 +5,6 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from './types';
 import { ILogger } from './logger/logger.service.interface';
 import { IUsersController } from './users/users.controller.interface';
-import 'reflect-metadata';
 import { json } from 'body-parser';
 import { PrismaService } from './database/prisma.service';
 

@@ -4,7 +4,6 @@ import { IUsersController } from './users.controller.interface';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
 import { ILogger } from '../logger/logger.service.interface';
-import 'reflect-metadata';
 import { UserRegisterDto } from './dto/user-register.dto';
 import { UserLoginDto } from './dto/user-login.dto';
 import { IUserService } from './services/user.service.interface';

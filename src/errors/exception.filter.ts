@@ -4,7 +4,6 @@ import { HTTPException } from './http-error.class';
 import { inject, injectable } from 'inversify';
 import { ILogger } from '../logger/logger.service.interface';
 import { TYPES } from '../types';
-import 'reflect-metadata';
 
 @injectable()
 export class ExceptionFilter implements IExceptionFilter {

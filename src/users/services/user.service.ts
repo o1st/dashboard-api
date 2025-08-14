@@ -5,7 +5,6 @@ import { UserRegisterDto } from '../dto/user-register.dto';
 import { User } from '../entities/user.entity';
 import { IUserService } from './user.service.interface';
 import { inject, injectable } from 'inversify';
-import 'reflect-metadata';
 import { IUsersRepository } from '../repositories/users.repository.interface';
 import { UserModel } from '@prisma/client';
 

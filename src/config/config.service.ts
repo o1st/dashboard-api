@@ -3,7 +3,6 @@ import { ILogger } from '../logger/logger.service.interface';
 import { TYPES } from '../types';
 import { IConfigService } from './config.service.interface';
 import { config, DotenvConfigOutput, DotenvParseOutput } from 'dotenv';
-import 'reflect-metadata';
 
 @injectable()
 export class ConfigService implements IConfigService {

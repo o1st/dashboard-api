@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { App } from './app';
 import { ExceptionFilter } from './errors/exception.filter';
 import { IExceptionFilter } from './errors/exception.filter.interface';
